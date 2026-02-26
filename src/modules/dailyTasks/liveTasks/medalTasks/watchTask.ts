@@ -389,6 +389,8 @@ class WatchTask extends MedalModule {
           this.config._lastCompleteTime = tsm()
           this.logger.log('观看直播任务已完成')
           this.status = 'done'
+        } else {
+          this.status = ''
         }
       } else {
         this.status = 'done'
