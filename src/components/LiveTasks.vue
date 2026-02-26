@@ -3,6 +3,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { useModuleStore, useBiliStore, useUIStore } from '@/stores'
 import { Edit, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus'
+import type { MessageBoxInputData } from 'element-plus'
 import helpInfo from '@/library/help-info'
 import { VueDraggable } from 'vue-draggable-plus'
 import { arrayToMap } from '@/library/utils'
@@ -34,14 +35,17 @@ const danmuTableData = computed(() =>
 )
 
 const handleEditDanmu = (index: number, row: { content: string }) => {
-  ElMessageBox.prompt('请输入弹幕内容', '修改弹幕', {
+  // TODO: 等 Element Plus 更新后删除强制类型转换（1）
+  const prompt = ElMessageBox.prompt('请输入弹幕内容', '修改弹幕', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     inputPattern: /^.{1,30}$/,
     inputErrorMessage: '弹幕内容不得为空且长度不能超过30',
     inputValue: row.content,
     lockScroll: false,
-  })
+  }) as Promise<MessageBoxInputData>
+
+  prompt
     .then(({ value }) => {
       config.medalTasks.light.danmuList[index] = value
     })
@@ -60,13 +64,16 @@ const handleDeleteDanmu = (index: number) => {
 }
 
 const handleAddDanmu = () => {
-  ElMessageBox.prompt('请输入新增的弹幕内容', '新增弹幕', {
+  // TODO: 等 Element Plus 更新后删除强制类型转换（2）
+  const prompt = ElMessageBox.prompt('请输入新增的弹幕内容', '新增弹幕', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     inputPattern: /^.{1,30}$/,
     inputErrorMessage: '弹幕内容不得为空且长度不能超过30',
     lockScroll: false,
-  })
+  }) as Promise<MessageBoxInputData>
+
+  prompt
     .then(({ value }) => {
       config.medalTasks.light.danmuList.push(value)
     })
@@ -205,7 +212,7 @@ function handleRowClick(row: MedalInfoRow) {
           v-model="config.medalTasks.isWhiteList"
           active-text="白名单"
           inactive-text="黑名单"
-          @change="(val: any) => !val && (uiStore.uiConfig.medalInfoPanelSortMode = false)"
+          @change="(val) => !val && (uiStore.uiConfig.medalInfoPanelSortMode = false)"
         />
         <el-button type="primary" size="small" :icon="Edit" @click="handleEditList"
           >编辑名单
@@ -324,7 +331,7 @@ function handleRowClick(row: MedalInfoRow) {
           :disabled="!config.medalTasks.isWhiteList"
           inactive-text="常规模式"
           active-text="排序模式"
-          @change="(val: any) => !val && nextTick(() => initSelection(medalInfoTableData))"
+          @change="(val) => !val && nextTick(() => initSelection(medalInfoTableData))"
         />
       </template>
     </el-dialog>
