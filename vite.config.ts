@@ -75,7 +75,7 @@ export default defineConfig({
           pinia: cdn.unpkg('Pinia', 'dist/pinia.iife.prod.js'),
           'vue-draggable-plus': cdn.unpkg('VueDraggablePlus', 'dist/vue-draggable-plus.iife.js'),
           lodash: cdn.unpkg('_', 'lodash.min.js'),
-          'hotkeys-js': cdn.unpkg('hotkeys', 'dist/hotkeys.min.js'),
+          'hotkeys-js': cdn.unpkg('hotkeys', 'dist/hotkeys-js.min.js'),
           luxon: cdn.unpkg('luxon', 'build/global/luxon.min.js'),
           'crypto-js': cdn.unpkg('CryptoJS', 'crypto-js.js'),
         },
