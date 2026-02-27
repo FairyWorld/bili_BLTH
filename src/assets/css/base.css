@@ -1,8 +1,6 @@
 /* 显示/隐藏控制面板按钮 */
 .blth-btn {
-  z-index: 1;
   padding: 5px;
-  margin-inline-start: 5px;
   margin-left: 15px;
   font-size: small;
   line-height: 10px;

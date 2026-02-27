@@ -44,7 +44,7 @@ function buttonOnClick() {
 // 节流，防止点击过快，减小渲染压力
 const throttleButtonOnClick = _.throttle(buttonOnClick, 300)
 // 播放器节点出现在最初的html中，可以直接获取
-const livePlayer = dq('#live-player-ctnr')
+const livePlayer = dq('.player-section')
 if (livePlayer) {
   updatePosition()
   // 查找播放器上面的 header
