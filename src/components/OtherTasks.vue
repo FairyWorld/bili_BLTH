@@ -13,13 +13,6 @@ const reset = moduleStore.moduleReset.DailyTasks.OtherTasks
   <div>
     <el-row>
       <el-space wrap>
-        <el-switch v-model="config.groupSign.enabled" active-text="应援团签到" />
-        <Info :item="helpInfo.DailyTasks.OtherTasks.groupSign" />
-        <TaskStatus :status="status.groupSign" @click="reset.groupSign" />
-      </el-space>
-    </el-row>
-    <el-row>
-      <el-space wrap>
         <el-switch v-model="config.silverToCoin.enabled" active-text="银瓜子换硬币" />
         <Info :item="helpInfo.DailyTasks.OtherTasks.silverToCoin" />
         <TaskStatus :status="status.silverToCoin" @click="reset.silverToCoin" />

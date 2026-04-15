@@ -21,7 +21,6 @@ interface HelpInfo {
       }
     }
     OtherTasks: {
-      groupSign: HelpInfoItem
       silverToCoin: HelpInfoItem
       coinToSilver: HelpInfoItem
       getYearVipPrivilege: HelpInfoItem

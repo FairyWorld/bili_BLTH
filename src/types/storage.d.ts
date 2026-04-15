@@ -38,10 +38,6 @@ interface ModuleConfig {
       }
     }
     OtherTasks: {
-      groupSign: {
-        enabled: boolean
-        _lastCompleteTime: number
-      }
       silverToCoin: {
         enabled: boolean
         _lastCompleteTime: number

@@ -1,12 +1,11 @@
 import Request from '../request'
-import { Live, LiveTrace, Main, Vc } from './response'
+import { Live, LiveTrace, Main } from './response'
 
 interface Requests {
   live: Request
   liveTrace: Request
   passport: Request
   main: Request
-  vc: Request
   raw: Request
 }
 
@@ -128,10 +127,6 @@ interface BapiMethods {
       receivePrivilege: (type: number, platform?: string) => Promise<Main.Vip.ReceivePrivilege>
       addExperience: () => Promise<Main.Vip.AddExperience>
     }
-  }
-  vc: {
-    myGroups: (build?: number, mobi_app?: string, web_location?: string) => Promise<Vc.MyGroups>
-    signIn: (group_id: number, owner_id: number) => Promise<Vc.SignIn>
   }
 }
 

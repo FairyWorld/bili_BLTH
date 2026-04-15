@@ -1605,28 +1605,4 @@ declare namespace MainData {
   }
 }
 
-declare namespace VcData {
-  namespace MyGroups {
-    interface Data {
-      list: List[]
-    }
-
-    interface List {
-      group_id: number
-      owner_uid: number
-      group_cover?: string
-      group_name: string
-      group_notice: string
-      fans_medal_name?: string
-    }
-  }
-
-  namespace SignIn {
-    interface Data {
-      add_num: number
-      status: number
-    }
-  }
-}
-
-export { LiveData, LiveTraceData, MainData, VcData }
+export { LiveData, LiveTraceData, MainData }

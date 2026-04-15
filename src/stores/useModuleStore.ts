@@ -30,7 +30,6 @@ const defaultModuleStatus: ModuleStatus = {
       },
     },
     OtherTasks: {
-      groupSign: '',
       silverToCoin: '',
       coinToSilver: '',
       getYearVipPrivilege: '',
@@ -111,12 +110,6 @@ export const useModuleStore = defineStore('module', () => {
         },
       },
       OtherTasks: {
-        groupSign: () => {
-          moduleStatus.value.DailyTasks.OtherTasks.groupSign = ''
-          moduleConfig.value.DailyTasks.OtherTasks.groupSign._lastCompleteTime = 0
-
-          rerunModule('DailyTask_OtherTask_GroupSignTask')
-        },
         silverToCoin: () => {
           moduleStatus.value.DailyTasks.OtherTasks.silverToCoin = ''
           moduleConfig.value.DailyTasks.OtherTasks.silverToCoin._lastCompleteTime = 0

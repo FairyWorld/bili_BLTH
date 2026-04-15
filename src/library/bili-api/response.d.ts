@@ -1,4 +1,4 @@
-import { LiveData, LiveTraceData, MainData, VcData } from './data'
+import { LiveData, LiveTraceData, MainData } from './data'
 
 declare namespace Live {
   interface FansMedalPanel {
@@ -131,22 +131,4 @@ declare namespace Main {
   }
 }
 
-declare namespace Vc {
-  interface MyGroups {
-    code: number
-    msg: string
-    message: string
-    ttl: number
-    data: VcData.MyGroups.Data
-  }
-
-  interface SignIn {
-    code: number
-    msg: string
-    message: string
-    ttl: number
-    data: VcData.SignIn.Data
-  }
-}
-
-export { Live, LiveTrace, Main, Vc }
+export { Live, LiveTrace, Main }

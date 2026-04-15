@@ -9,7 +9,6 @@ const request: Requests = {
   liveTrace: new Request('https://live-trace.bilibili.com', 'https://live.bilibili.com'),
   passport: new Request('https://passport.bilibili.com', 'https://passport.bilibili.com/'),
   main: new Request('https://api.bilibili.com', 'https://www.bilibili.com'),
-  vc: new Request('https://api.vc.bilibili.com', 'https://message.bilibili.com/'),
   raw: new Request(),
 }
 
@@ -374,22 +373,6 @@ const BAPI: BapiMethods = {
           },
         )
       },
-    },
-  },
-  vc: {
-    myGroups: (build = 0, mobi_app = 'web', web_location = '333.40164') => {
-      return request.vc.get('/link_group/v1/member/my_groups', {
-        build,
-        mobi_app,
-        web_location,
-      })
-    },
-    signIn: (group_id, owner_id) => {
-      // 该API仅在APP中使用，但是也可以用web端的鉴权方式
-      return request.vc.get('/link_setting/v1/link_setting/sign_in', {
-        group_id,
-        owner_id,
-      })
     },
   },
 }

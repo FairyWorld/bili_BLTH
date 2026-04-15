@@ -137,10 +137,6 @@ const helpInfo: HelpInfo = {
       },
     },
     OtherTasks: {
-      groupSign: {
-        title: '应援团签到',
-        message: '完成应援团签到任务。',
-      },
       silverToCoin: {
         title: '银瓜子换硬币',
         message: h('p', [

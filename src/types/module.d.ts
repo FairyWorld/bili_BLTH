@@ -24,7 +24,6 @@ interface ModulesNeedStatus<T> {
       }
     }
     OtherTasks: {
-      groupSign: T
       silverToCoin: T
       coinToSilver: T
       getYearVipPrivilege: T
