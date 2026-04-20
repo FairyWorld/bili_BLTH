@@ -20,8 +20,11 @@ class SwitchLiveStreamQuality extends BaseModule {
       },
     })
 
-    const targetQuality = playerInfo.qualityCandidates.find(({ desc }) =>
-      desc.includes(this.config.qualityDesc),
+    const isHDR = this.config.qualityDesc.includes('HDR')
+    const searchStr = this.config.qualityDesc.replace(/（.*）/, '')
+
+    const targetQuality = playerInfo.qualityCandidates.find(
+      ({ desc, hdrType }) => desc.includes(searchStr) && hdrType > 0 === isHDR,
     )
 
     if (!targetQuality) {
@@ -33,11 +36,11 @@ class SwitchLiveStreamQuality extends BaseModule {
       playerInfo = livePlayer.getPlayerInfo()
 
       if (playerInfo.quality === targetQuality.qn) {
-        this.logger.log(`已将画质切换为${this.config.qualityDesc}`, targetQuality)
+        this.logger.log(`已将画质切换为 ${targetQuality.desc}`, targetQuality)
         clearInterval(switchQualityTimer)
         clearTimeout(timeoutTimer)
       } else {
-        livePlayer.switchQuality(targetQuality.qn)
+        livePlayer.switchQuality(targetQuality.qn, targetQuality.hdrType)
       }
     }, 500)
 

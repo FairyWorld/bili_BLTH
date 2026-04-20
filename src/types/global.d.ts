@@ -1,7 +1,5 @@
 declare global {
   interface Window {
-    __main_blth_flag: string
-
     BilibiliLive: {
       INIT_TIME: number
       RND: number
@@ -25,10 +23,15 @@ declare global {
         playurl: string
         guid: string
         quality: string
+        hdrType: number
         qualityCandidates: Array<{
           qn: string
           desc: string
+          hdrType: number
         }>
+        timeShift: number
+        playerId: string
+        streamName: string
         volume: {
           disabled: boolean
           value: number
@@ -42,11 +45,8 @@ declare global {
           showMaskOption: boolean
           enableMask: boolean
         }
-        timeShift: number
-        hdrType: number
-        streamName?: string
       }
-      switchQuality: (qn: string) => void
+      switchQuality: (qn: string, hdrType?: number) => void
     }
   }
 }
