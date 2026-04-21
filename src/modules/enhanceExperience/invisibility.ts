@@ -1,5 +1,6 @@
 import type { OnFrameTypes, RunAtMoment } from '@/types'
-import { type XhrRequestConfig, type XhrRequestHandler, proxy } from 'ajax-hook'
+import { type FetchHookProxyConfig, fproxy } from '@/library/fetch-hook'
+import { getUrlFromFetchInput, createFetchInputWithNewUrl } from '@/library/utils'
 import BaseModule from '@/modules/BaseModule'
 import { unsafeWindow } from '$'
 import { useModuleStore } from '@/stores'
@@ -15,19 +16,20 @@ class Invisibility extends BaseModule {
   public run(): void {
     this.logger.log('隐身入场模块开始运行')
 
-    proxy(
-      {
-        onRequest: (config: XhrRequestConfig, handler: XhrRequestHandler) => {
-          if (
-            config.url.includes('//api.live.bilibili.com/xlive/web-room/v1/index/getInfoByUser')
-          ) {
-            config.url = config.url.replace('not_mock_enter_effect=0', 'not_mock_enter_effect=1')
-          }
-          handler.next(config)
-        },
+    const fetchHookConfig: FetchHookProxyConfig = {
+      onRequest: (config, handler) => {
+        const url = getUrlFromFetchInput(config.input)
+
+        if (url.includes('//api.live.bilibili.com/xlive/web-room/v1/index/getInfoByUser')) {
+          const nextUrl = url.replace('not_mock_enter_effect=0', 'not_mock_enter_effect=1')
+          config.input = createFetchInputWithNewUrl(nextUrl, config.input)
+        }
+
+        handler.next(config)
       },
-      unsafeWindow,
-    )
+    }
+
+    fproxy(fetchHookConfig, unsafeWindow)
   }
 }
 

@@ -127,7 +127,25 @@ function getUrlFromFetchInput(input: RequestInfo | URL): string {
   } else if (input instanceof Request) {
     return input.url
   } else {
-    return 'Incorrect input'
+    throw new TypeError('Unsupported fetch input type')
+  }
+}
+
+/**
+ * 根据原始 fetch input 参数，使用新的 URL 创建一个新的 fetch input 参数，保留原始参数的其他属性
+ * @param url 新的 URL
+ * @param input 原始 fetch input 参数
+ * @returns 新的 fetch input 参数
+ */
+function createFetchInputWithNewUrl(url: string, input: RequestInfo | URL): RequestInfo | URL {
+  if (typeof input === 'string') {
+    return url
+  } else if (input instanceof URL) {
+    return new URL(url, input.toString())
+  } else if (input instanceof Request) {
+    return new Request(url, input)
+  } else {
+    throw new TypeError('Unsupported fetch input type')
   }
 }
 
@@ -216,6 +234,7 @@ export {
   packFormData,
   deepestIterate,
   getUrlFromFetchInput,
+  createFetchInputWithNewUrl,
   waitForMoment,
   arrayToMap,
 }
