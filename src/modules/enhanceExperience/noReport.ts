@@ -60,13 +60,28 @@ class NoReport extends BaseModule {
                   fpPromise: Promise.resolve(),
                   initBuvidPromise: Promise.resolve(),
                   miss: false,
-                  options: {},
+                  options: {
+                    feature: new Proxy(
+                      {},
+                      {
+                        get() {
+                          return false
+                        },
+                        set() {
+                          return true
+                        },
+                      },
+                    ),
+                  },
                   scheduler: {},
                   sequencer: {},
                   techEventReporter: {},
                   version: '',
                 }
                 return __biliMirrorPbInstance__[property] ?? (() => {})
+              },
+              set() {
+                return true
               },
             },
           )
@@ -86,6 +101,9 @@ class NoReport extends BaseModule {
             {
               get() {
                 return () => {}
+              },
+              set() {
+                return true
               },
             },
           )
@@ -119,6 +137,9 @@ class NoReport extends BaseModule {
                     return () => {}
                 }
               },
+              set() {
+                return true
+              },
             },
           )
         },
@@ -145,6 +166,26 @@ class NoReport extends BaseModule {
       BiliCm: {
         get() {
           return {}
+        },
+        set() {},
+      },
+      ReporterPb: {
+        get() {
+          return class ReporterPb {
+            constructor() {
+              return new Proxy(
+                {},
+                {
+                  get() {
+                    return () => {}
+                  },
+                  set() {
+                    return true
+                  },
+                },
+              )
+            }
+          }
         },
         set() {},
       },
