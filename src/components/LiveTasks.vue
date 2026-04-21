@@ -3,7 +3,6 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { useModuleStore, useBiliStore, useUIStore } from '@/stores'
 import { Edit, Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, ElTable } from 'element-plus'
-import type { MessageBoxInputData } from 'element-plus'
 import helpInfo from '@/library/help-info'
 import { VueDraggable } from 'vue-draggable-plus'
 import { arrayToMap } from '@/library/utils'
@@ -35,17 +34,14 @@ const danmuTableData = computed(() =>
 )
 
 const handleEditDanmu = (index: number, row: { content: string }) => {
-  // TODO: 等 Element Plus 更新后删除强制类型转换（1）
-  const prompt = ElMessageBox.prompt('请输入弹幕内容', '修改弹幕', {
+  ElMessageBox.prompt('请输入弹幕内容', '修改弹幕', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     inputPattern: /^.{1,30}$/,
     inputErrorMessage: '弹幕内容不得为空且长度不能超过30',
     inputValue: row.content,
     lockScroll: false,
-  }) as Promise<MessageBoxInputData>
-
-  prompt
+  })
     .then(({ value }) => {
       config.medalTasks.light.danmuList[index] = value
     })
@@ -64,16 +60,13 @@ const handleDeleteDanmu = (index: number) => {
 }
 
 const handleAddDanmu = () => {
-  // TODO: 等 Element Plus 更新后删除强制类型转换（2）
-  const prompt = ElMessageBox.prompt('请输入新增的弹幕内容', '新增弹幕', {
+  ElMessageBox.prompt('请输入新增的弹幕内容', '新增弹幕', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     inputPattern: /^.{1,30}$/,
     inputErrorMessage: '弹幕内容不得为空且长度不能超过30',
     lockScroll: false,
-  }) as Promise<MessageBoxInputData>
-
-  prompt
+  })
     .then(({ value }) => {
       config.medalTasks.light.danmuList.push(value)
     })
