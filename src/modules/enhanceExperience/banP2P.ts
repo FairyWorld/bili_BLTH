@@ -34,15 +34,9 @@ class BanP2P extends BaseModule {
   }
 
   /**
-   * 安装一个“高仿但失效”的 RTCPeerConnection 实现。
+   * 安装一个“高仿但失效”的 RTCPeerConnection 实现
    *
-   * 设计目标不是让 WebRTC API 不可用，而是让页面觉得：
-   * - 构造器存在；
-   * - 常见方法可调用；
-   * - Promise/状态/事件看起来基本合理；
-   * - 但连接最终始终失败，无法真正建立 P2P。
-   *
-   * 这样页面更容易把结果理解成“网络建连失败”而不是“浏览器不支持 WebRTC”。
+   * 设计目标是让B站页面觉得 RTCPeerConnection 可用，但连接始终失败，无法真正建立 P2P
    */
   private banP2P(): void {
     /**
@@ -107,7 +101,6 @@ class BanP2P extends BaseModule {
      * 假的 RTCDataChannel
      *
      * 不会真的打开或传输数据
-     *
      */
     class FakeRTCDataChannel extends FakeEventTarget {
       binaryType: BinaryType = 'arraybuffer'
@@ -160,12 +153,6 @@ class BanP2P extends BaseModule {
 
     /**
      * 假的 RTCPeerConnection
-     *
-     * 设计策略：
-     * - 构造可以成功
-     * - 协商相关 API 可以返回看似正常的结果
-     * - 状态会推进到 checking / connecting
-     * - 最终进入 failed，模拟“建连失败”而非“API 不可用”
      */
     class FakeRTCPeerConnection extends FakeEventTarget {
       canTrickleIceCandidates: boolean | null = false
