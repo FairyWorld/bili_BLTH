@@ -1,8 +1,9 @@
 import Request from '../request'
 import type { Requests, BapiMethods } from './api'
 import { useBiliStore } from '@/stores'
-import { packFormData, uuid, wbiSign } from '../utils'
+import { packFormData, random32Hash, wbiSign } from '../utils'
 import { ts, tsm } from '../luxon'
+import _ from 'lodash'
 
 const request: Requests = {
   live: new Request('https://api.live.bilibili.com', 'https://live.bilibili.com'),
@@ -36,6 +37,7 @@ const BAPI: BapiMethods = {
       reply_type = 0,
       reply_uname = '',
       statistics = '{"appId":100,"platform":5}',
+      data_extend = '{"trackid":"-99998"}',
       web_location = '444.8',
     ) => {
       const biliStore = useBiliStore()
@@ -55,6 +57,7 @@ const BAPI: BapiMethods = {
           statistics,
           reply_type,
           reply_uname,
+          data_extend,
           fontsize,
           rnd: ts(),
           roomid,
@@ -96,8 +99,8 @@ const BAPI: BapiMethods = {
     silver2coin: (visit_id = '') => {
       const bili_jct = useBiliStore().cookies!.bili_jct
       return request.live.post('/xlive/revenue/v1/wallet/silver2coin', {
-        csrf: bili_jct,
         csrf_token: bili_jct,
+        csrf: bili_jct,
         visit_id,
       })
     },
@@ -106,8 +109,8 @@ const BAPI: BapiMethods = {
       return request.live.post('/xlive/revenue/v1/wallet/coin2silver', {
         num,
         platform,
-        csrf: bili_jct,
         csrf_token: bili_jct,
+        csrf: bili_jct,
         visit_id,
       })
     },
@@ -172,10 +175,9 @@ const BAPI: BapiMethods = {
       page = 1,
       timezone_offset = -480,
       platform = 'web',
-      features = 'itemOpusStyle,listOnlyfans,opusBigCover,onlyfansVote,decorationCard,onlyfansAssetsV2,forwardListHidden,ugcDelete,onlyfansQaCard,commentsNewVersion,avatarAutoTheme',
+      features = 'itemOpusStyle,listOnlyfans,opusBigCover,onlyfansVote,decorationCard,onlyfansAssetsV2,forwardListHidden,ugcDelete,onlyfansQaCard,commentsNewVersion,avatarAutoTheme,sunflowerStyle,cardsEnhance,eva3CardOpus,eva3CardVideo,eva3CardComment,eva3CardVote,eva3CardUser',
       web_location = '333.1365',
-      x_bili_device_req_json = '{"platform":"web","device":"pc"}',
-      x_bili_web_req_json = '{"spm_id":"333.1365"}',
+      x_bili_device_req_json = '{"platform":"web","device":"pc","spmid":"333.1365"}',
     ) => {
       return request.main.get(
         '/x/polymer/web-dynamic/v1/feed/all',
@@ -187,7 +189,6 @@ const BAPI: BapiMethods = {
           features,
           web_location,
           x_bili_device_req_json,
-          x_bili_web_req_json,
         },
         {
           headers: {
@@ -199,7 +200,7 @@ const BAPI: BapiMethods = {
     },
     videoHeartbeat: (
       aid,
-      cid = 1000000000,
+      cid = 30000000000,
       type = 3,
       sub_type = 0,
       dt = 2,
@@ -209,6 +210,7 @@ const BAPI: BapiMethods = {
       real_played_time = 62,
       refer_url = 'https://t.bilibili.com/?tab=video',
       quality = 64,
+      is_auto_qn = 0,
       video_duration = 180,
       last_play_progress_time = 62,
       max_play_progress_time = 62,
@@ -217,15 +219,20 @@ const BAPI: BapiMethods = {
       mobi_app = 'web',
       device = 'web',
       platform = 'web',
+      cur_language_vt = '{}',
+      perfer_type = '{}',
+      play_mode = 1,
       spmid = '333.788.0.0',
       from_spmid = '333.1365.list.card_archive.click',
-      session = uuid().replaceAll('-', ''),
-      extra = '{"player_version":"4.9.40"}',
+      session = random32Hash(),
+      track_id = '',
+      extra = `{"player_version":"4.9.76","video_dye_id":"${random32Hash()}","video_file_name":"${_.random(30000000000, 40000000000)}-1-${_.random(30000, 40000)}.m4s","play_method":1,"play_volume":1,"auto_play":0}`,
       web_location = 1315873,
     ) => {
       const biliStore = useBiliStore()
       const start_ts = ts()
-      const mid = useBiliStore().userInfo!.mid
+      const mid = biliStore.userInfo!.mid
+      const bili_jct = biliStore.cookies!.bili_jct
 
       return request.main.post(
         '/x/click-interface/web/heartbeat',
@@ -243,6 +250,7 @@ const BAPI: BapiMethods = {
           real_played_time,
           refer_url,
           quality,
+          is_auto_qn,
           video_duration,
           last_play_progress_time,
           max_play_progress_time,
@@ -251,11 +259,15 @@ const BAPI: BapiMethods = {
           mobi_app,
           device,
           platform,
+          cur_language_vt,
+          perfer_type,
+          play_mode,
           spmid,
           from_spmid,
           session,
+          track_id,
           extra,
-          csrf: biliStore.cookies!.bili_jct,
+          csrf: bili_jct,
         },
         {
           params: wbiSign({
@@ -273,15 +285,14 @@ const BAPI: BapiMethods = {
         },
       )
     },
-    share: (aid, source = 'pc_client_normal', eab_x = 2, ramval = 0, ga = 1, referer = '') => {
+    share: (aid, source = 'pc_client_normal', eab_x = 2, ramval = 0, ga = 1) => {
       // source 不能用 web 端的值，改成 pc 客户端的才能完成任务
       const bili_jct = useBiliStore().cookies!.bili_jct
       return request.main.post('/x/web-interface/share/add', {
+        aid,
         eab_x,
         ramval,
-        referer,
         source,
-        aid,
         ga,
         csrf: bili_jct,
       })
@@ -294,7 +305,7 @@ const BAPI: BapiMethods = {
       from_spmid = '333.1365.list.card_archive.click',
       spmid = '333.788.0.0',
       statistics = '{"appId":100,"platform":5}',
-      eab_x = 2,
+      eab_x = 1,
       ramval = 6,
       source = 'web_normal',
       ga = 1,
@@ -303,8 +314,8 @@ const BAPI: BapiMethods = {
       return request.main.post('/x/web-interface/coin/add ', {
         aid,
         multiply: num,
-        select_like: select_like,
-        cross_domain: cross_domain,
+        select_like,
+        cross_domain,
         from_spmid,
         spmid,
         statistics,
@@ -330,7 +341,7 @@ const BAPI: BapiMethods = {
           },
           {
             headers: {
-              Referer: 'https://account.bilibili.com/account/big/myPackage',
+              Referer: 'https://account.bilibili.com/',
               Origin: 'https://account.bilibili.com',
             },
           },
@@ -347,7 +358,7 @@ const BAPI: BapiMethods = {
           },
           {
             headers: {
-              Referer: 'https://account.bilibili.com/account/big/myPackage',
+              Referer: 'https://account.bilibili.com/',
               Origin: 'https://account.bilibili.com',
             },
           },
@@ -367,7 +378,7 @@ const BAPI: BapiMethods = {
           },
           {
             headers: {
-              Referer: 'https://account.bilibili.com/big',
+              Referer: 'https://account.bilibili.com/',
               Origin: 'https://account.bilibili.com',
             },
           },

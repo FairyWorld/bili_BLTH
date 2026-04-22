@@ -16,6 +16,15 @@ function uuid(): string {
 }
 
 /**
+ * 生成一个随机的 32 位 hash
+ * @returns 32 位十六进制字符串
+ */
+function random32Hash(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(16))
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
+}
+
+/**
  * 基于 Promise 的睡眠函数
  * @param milliseconds 睡眠时间（毫秒）
  */
@@ -227,6 +236,7 @@ function arrayToMap<T>(arr: T[]): Map<T, number> {
 
 export {
   uuid,
+  random32Hash,
   sleep,
   getFilenameFromUrl,
   addURLParams,
