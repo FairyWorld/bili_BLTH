@@ -8,6 +8,8 @@ node_modules
 .vscode/*
 !.vscode/extensions.json
 .idea
+.trae
+.claude
 
 # Notes
 notes

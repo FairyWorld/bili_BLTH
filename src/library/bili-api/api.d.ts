@@ -1,12 +1,11 @@
 import Request from '../request'
-import { Live, LiveTrace, Main, Vc } from './response'
+import { Live, LiveTrace, Main } from './response'
 
 interface Requests {
   live: Request
   liveTrace: Request
   passport: Request
   main: Request
-  vc: Request
   raw: Request
 }
 
@@ -28,6 +27,7 @@ interface BapiMethods {
       reply_type?: number,
       reply_uname?: string,
       statistics?: string,
+      data_extend?: string,
       web_location?: string,
     ) => Promise<Live.SendMsg>
     likeReport: (
@@ -73,7 +73,6 @@ interface BapiMethods {
       features?: string,
       web_location?: string,
       x_bili_device_req_json?: string,
-      x_bili_web_req_json?: string,
     ) => Promise<Main.DynamicAll>
     videoHeartbeat: (
       aid: number,
@@ -87,6 +86,7 @@ interface BapiMethods {
       real_played_time?: number,
       refer_url?: string,
       quality?: number,
+      is_auto_qn?: number,
       video_duration?: number,
       last_play_progress_time?: number,
       max_play_progress_time?: number,
@@ -95,9 +95,13 @@ interface BapiMethods {
       mobi_app?: string,
       device?: string,
       platform?: string,
+      cur_language_vt?: string,
+      perfer_type?: string,
+      play_mode?: number,
       spmid?: string,
       from_spmid?: string,
       session?: string,
+      track_id?: string,
       extra?: string,
       web_location?: number,
     ) => Promise<Main.VideoHeartbeat>
@@ -107,7 +111,6 @@ interface BapiMethods {
       eab_x?: number,
       ramval?: number,
       ga?: number,
-      referer?: string,
     ) => Promise<Main.Share>
     coinAdd: (
       aid: string,
@@ -128,10 +131,6 @@ interface BapiMethods {
       receivePrivilege: (type: number, platform?: string) => Promise<Main.Vip.ReceivePrivilege>
       addExperience: () => Promise<Main.Vip.AddExperience>
     }
-  }
-  vc: {
-    myGroups: (build?: number, mobi_app?: string, web_location?: string) => Promise<Vc.MyGroups>
-    signIn: (group_id: number, owner_id: number) => Promise<Vc.SignIn>
   }
 }
 

@@ -21,7 +21,7 @@ export default defineConfigWithVueTs(
   globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
   includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 
-  pluginVue.configs['flat/essential'],
+  ...pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
   skipFormatting,
 

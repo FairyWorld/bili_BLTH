@@ -20,24 +20,34 @@ class SwitchLiveStreamQuality extends BaseModule {
       },
     })
 
-    const targetQuality = playerInfo.qualityCandidates.find(({ desc }) =>
-      desc.includes(this.config.qualityDesc),
-    )
+    const isHDR = this.config.qualityDesc.includes('HDR')
+    const searchStr = this.config.qualityDesc.replace(/（.*）/, '')
+
+    const targetQuality =
+      playerInfo.qualityCandidates.find(
+        ({ desc, hdrType }) => desc.includes(searchStr) && hdrType > 0 === isHDR,
+      ) ??
+      // 尝试寻找不带 HDR 的画质
+      (isHDR ? playerInfo.qualityCandidates.find(({ desc }) => desc.includes(searchStr)) : null)
 
     if (!targetQuality) {
       this.logger.log('当前直播不支持目标画质，保持默认画质')
       return
     }
 
+    if (isHDR && targetQuality.hdrType === 0) {
+      this.logger.log(`当前直播不支持 ${this.config.qualityDesc}，回退到 ${targetQuality.desc}`)
+    }
+
     const switchQualityTimer = setInterval(() => {
       playerInfo = livePlayer.getPlayerInfo()
 
-      if (playerInfo.quality === targetQuality.qn) {
-        this.logger.log(`已将画质切换为${this.config.qualityDesc}`, targetQuality)
+      if (playerInfo.quality === targetQuality.qn && playerInfo.hdrType === targetQuality.hdrType) {
+        this.logger.log(`已将画质切换为 ${targetQuality.desc}`, targetQuality)
         clearInterval(switchQualityTimer)
         clearTimeout(timeoutTimer)
       } else {
-        livePlayer.switchQuality(targetQuality.qn)
+        livePlayer.switchQuality(targetQuality.qn, targetQuality.hdrType)
       }
     }, 500)
 

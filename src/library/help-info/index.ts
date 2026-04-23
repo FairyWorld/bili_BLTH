@@ -137,10 +137,6 @@ const helpInfo: HelpInfo = {
       },
     },
     OtherTasks: {
-      groupSign: {
-        title: '应援团签到',
-        message: '完成应援团签到任务。',
-      },
       silverToCoin: {
         title: '银瓜子换硬币',
         message: h('p', [
@@ -180,8 +176,8 @@ const helpInfo: HelpInfo = {
     switchLiveStreamQuality: {
       title: '自动切换画质',
       message: h('p', [
-        h('div', '打开直播间后自动把播放器切换到指定画质。'),
-        h('div', '如果指定画质不存在，则还是使用B站的默认画质。'),
+        h('div', '打开直播间后自动把播放器切换到目标画质。'),
+        h('div', '如果目标画质不存在，先查找无HDR版本的画质，仍没有则使用B站的默认画质。'),
       ]),
     },
     banp2p: {

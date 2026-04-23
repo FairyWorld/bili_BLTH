@@ -39,8 +39,9 @@ class GetYearVipPrivilegeTask extends BaseModule {
    * 20: 尝试领取后提示：饿了么领取活动已经过期~；
    * 21: 尝试领取后提示：超大会员身份状态异常
    * 24,25,26,27: 尝试领取后提示：请求错误
+   * 200: 尝试领取后提示：当前不符合领取条件
    */
-  private blackList: number[] = [8, 14, 18, 19, 20, 21, 24, 25, 26, 27]
+  private blackList: number[] = [8, 14, 18, 19, 20, 21, 24, 25, 26, 27, 200]
 
   /**
    * 获取会员权益

@@ -70,10 +70,6 @@ const defaultValues: DefaultValues = {
         },
       },
       OtherTasks: {
-        groupSign: {
-          enabled: false,
-          _lastCompleteTime: 0,
-        },
         silverToCoin: {
           enabled: false,
           _lastCompleteTime: 0,

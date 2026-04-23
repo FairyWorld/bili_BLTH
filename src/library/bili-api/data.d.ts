@@ -178,7 +178,7 @@ declare namespace LiveData {
       switch_info: SwitchInfo
       record_switch_info: any
       room_config_info: RoomConfigInfo
-      gift_memory_info: any
+      gift_memory_info: GiftMemoryInfo
       new_switch_info: NewSwitchInfo
       super_chat_info: SuperChatInfo
       online_gold_rank_info_v2: any
@@ -226,7 +226,7 @@ declare namespace LiveData {
       dm_interaction_ab: DmInteractionAb
       guard_intimacy_rank_status: GuardIntimacyRankStatus
       hot_rank_entrance_info: any
-      area_rank_info_v2: any
+      area_rank_info_v2: AreaRankInfoV2
       transfer_flow_info: any
       universal_interact_info_v2: any
       play_together_voiceroom_dispatch: PlayTogetherVoiceroomDispatch
@@ -234,11 +234,22 @@ declare namespace LiveData {
       reenter_room_info: any
       cny_quiz_guide: boolean
       fake_device: FakeDevice
-      pure_room_info: any
+      pure_room_info: PureRoomInfo
       hot_rank_info_v3: HotRankInfoV3
       charm_chat_rank: any
       program_info: any
       module_control_infos: ModuleControlInfos
+      collaboration_live_info: any
+      player_watermark: PlayerWatermark
+      big_card_info: BigCardInfo
+      new_tab_info: NewTabInfo
+      popularity: Popularity
+      dm_pin: DmPin
+      chat_room_info: ChatRoomInfo
+      cny_26_info: any
+      cny_26_activity: Cny26Activity
+      gift_menu: GiftMenu
+      watch_off: boolean
     }
 
     interface RoomInfo {
@@ -292,11 +303,9 @@ declare namespace LiveData {
     }
 
     interface RoomType {
-      '2-3': number
-      '3-19': number
       '3-21': number
-      '3-31': number
-      '3-41': number
+      '3-25': number
+      '3-29': number
       '3-50': number
     }
 
@@ -329,7 +338,7 @@ declare namespace LiveData {
       score: number
       upgrade_score: number
       current: number[]
-      next: any
+      next: number[]
       rank: string
     }
 
@@ -393,13 +402,32 @@ declare namespace LiveData {
     }
 
     interface VoiceJoinInfo {
-      status: any
-      icons: any
+      status: Status
+      icons: Icons
       web_share_link: string
     }
 
+    interface Status {
+      open: number
+      anchor_open: number
+      status: number
+      uid: number
+      user_name: string
+      head_pic: string
+      guard: number
+      start_at: number
+      current_time: number
+    }
+
+    interface Icons {
+      icon_close: string
+      icon_open: string
+      icon_wait: string
+      icon_starting: string
+    }
+
     interface AdBannerInfo {
-      data: any[]
+      data: any
     }
 
     interface SkinInfo {
@@ -429,6 +457,11 @@ declare namespace LiveData {
 
     interface RoomConfigInfo {
       dm_text: string
+      is_default: boolean
+    }
+
+    interface GiftMemoryInfo {
+      list: any
     }
 
     interface NewSwitchInfo {
@@ -477,6 +510,10 @@ declare namespace LiveData {
       danmu_click_switch: number
       danmu_setting_show_switch: number
       room_hot_rank_v3: number
+      dm_pin_switch: number
+      input_plus_switch: number
+      enter_room_warning: number
+      chronos_danmu_style: number
     }
 
     interface SuperChatInfo {
@@ -569,7 +606,7 @@ declare namespace LiveData {
 
     interface MultiVoice {
       switch_status: number
-      members: any
+      members: any[]
       mv_role: number
       seat_type: number
       invoking_time: number
@@ -644,7 +681,22 @@ declare namespace LiveData {
       screen_switch_off: boolean
       chronos_kv: string
       danmu_player_config: any
+      danmu_settings: any
+      input_plus: InputPlus
+      laugh_room_info: LaughRoomInfo
     }
+
+    interface InputPlus {
+      buttons: Button[]
+    }
+
+    interface Button {
+      button_type: number
+      title: string
+      icon: string
+    }
+
+    interface LaughRoomInfo {}
 
     interface PlayerThrottleInfo {
       status: number
@@ -709,7 +761,7 @@ declare namespace LiveData {
       wealth: Wealth
       title: Title
       guard: any
-      uhead_frame: any
+      uhead_frame?: UheadFrame
       guard_leader: any
     }
 
@@ -772,6 +824,12 @@ declare namespace LiveData {
     interface Title {
       old_title_css_id: string
       title_css_id: string
+    }
+
+    interface UheadFrame {
+      id: number
+      frame_img: string
+      frame_dynamic_img: string
     }
 
     interface UserRankTabList {
@@ -863,20 +921,9 @@ declare namespace LiveData {
 
     interface TabSwitches {
       subtitle: number
-      realtime_data: RealtimeData
-      lol_player_grade: LolPlayerGrade
-    }
-
-    interface RealtimeData {
-      req_time: number
-    }
-
-    interface LolPlayerGrade {
-      is_enabled: boolean
-      name: string
-      jump_url: string
-      is_dm_entry_visible: boolean
-      dm_jump_url: string
+      realtime_data: any
+      lol_player_grade: any
+      wzry_player_grade: any
     }
 
     interface AreaMaskInfo {
@@ -953,9 +1000,22 @@ declare namespace LiveData {
     }
 
     interface DmActivity {
-      activity_list: any
+      activity_list: any[]
       ts: number
-      material_list: any
+      material_list: MaterialList[]
+    }
+
+    interface MaterialList {
+      activity_id: number
+      related_id: string
+      mod_resource: ModResource
+      backup_url: string
+    }
+
+    interface ModResource {
+      mobi_pool: string
+      mobi_module: string
+      mobi_module_version: number
     }
 
     interface DmInteractionAb {
@@ -971,6 +1031,18 @@ declare namespace LiveData {
       guard_rank_new_total_status: number
       guard_rank_new_month_status: number
       guard_rank_new_week_status: number
+    }
+
+    interface AreaRankInfoV2 {
+      items: any
+      rotation_cycle_time: number
+      user_last_rank_result: UserLastRankResult
+      user_ab_flag: boolean
+    }
+
+    interface UserLastRankResult {
+      show_special: boolean
+      show_special_count: number
     }
 
     interface PlayTogetherVoiceroomDispatch {
@@ -994,9 +1066,25 @@ declare namespace LiveData {
       delay: number
     }
 
+    interface PureRoomInfo {
+      player_bg_color: string
+      function_control: any
+    }
+
     interface HotRankInfoV3 {
-      item: any
+      item: Item2
       room_hot_rank_v3_ab: number
+    }
+
+    interface Item2 {
+      rank: number
+      countdown: number
+      timestamp: number
+      url: string
+      rank_name_by_type: string
+      on_rank_name_by_type: string
+      rank_type: number
+      sub_rank_type: number
     }
 
     interface ModuleControlInfos {
@@ -1009,12 +1097,54 @@ declare namespace LiveData {
       super_chat_module: boolean
       danmu_setting_module: boolean
       cmd_list: string[]
+      player_module: PlayerModule
     }
 
     interface AnchorModule {
       allow_click_face: boolean
       allow_follow: boolean
       heat_index: any
+    }
+
+    interface PlayerModule {
+      watermark: boolean
+    }
+
+    interface PlayerWatermark {
+      url: string
+    }
+
+    interface BigCardInfo {
+      card_type: number
+      extra: string
+    }
+
+    interface NewTabInfo {
+      button: any
+    }
+
+    interface Popularity {
+      type: number
+      popularity: number
+      popularity_text: string
+      online_displayable: boolean
+    }
+
+    interface DmPin {
+      pins: any
+    }
+
+    interface ChatRoomInfo {
+      background: string
+    }
+
+    interface Cny26Activity {
+      red_packet: any
+    }
+
+    interface GiftMenu {
+      gift_menu_items: any
+      is_show: boolean
     }
   }
 
@@ -1084,6 +1214,8 @@ declare namespace MainData {
       wbi_img: WbiImg
       is_jury: boolean
       name_render: any
+      legal_region: string
+      ip_region: string
     }
 
     interface LevelInfo {
@@ -1152,6 +1284,8 @@ declare namespace MainData {
       tv_vip_pay_type: number
       tv_due_date: number
       avatar_icon: AvatarIcon
+      ott_info: OttInfo
+      super_vip: SuperVip
     }
 
     interface Label {
@@ -1177,6 +1311,18 @@ declare namespace MainData {
     }
 
     interface IconResource {}
+
+    interface OttInfo {
+      vip_type: number
+      pay_type: number
+      pay_channel_id: string
+      status: number
+      overdue_time: number
+    }
+
+    interface SuperVip {
+      is_super_vip: boolean
+    }
 
     interface Wallet {
       mid: number
@@ -1206,119 +1352,145 @@ declare namespace MainData {
 
   namespace DynamicAll {
     interface Data {
+      update_num: string
+      update_baseline: string
+      offset: string
       has_more: boolean
       items: Item[]
-      offset: string
-      update_baseline: string
-      update_num: number
     }
 
     interface Item {
-      basic: Basic
       id_str: string
-      modules: Modules
       type: string
+      basic: Basic
       visible: boolean
+      modules: Modules
+      orig: any
     }
 
     interface Basic {
-      comment_id_str: string
-      comment_type: number
-      like_icon: LikeIcon
       rid_str: string
+      comment_type: number
+      comment_id_str: string
+      like_icon: LikeIcon
+      in_audit: boolean
+      is_only_fans: boolean
+      editable: boolean
+      open_app_extra: string
+      jump_url: string
+      aigc: boolean
     }
 
     interface LikeIcon {
+      id: string
+      start_url: string
       action_url: string
       end_url: string
-      id: number
-      start_url: string
     }
 
     interface Modules {
+      module_tag: any
       module_author: ModuleAuthor
-      module_dynamic: ModuleDynamic
       module_more: ModuleMore
+      module_dispute?: ModuleDispute
+      module_dynamic: ModuleDynamic
+      module_extend: any
       module_stat: ModuleStat
+      module_interaction?: ModuleInteraction
+      module_share_info: any
+      module_fold: any
     }
 
     interface ModuleAuthor {
+      type: string
       avatar: Avatar
       face: string
       face_nft: boolean
-      following: boolean
-      jump_url: string
+      nft_info: any
+      name: string
+      name_render: any
       label: string
       mid: number
-      name: string
-      official_verify: OfficialVerify
-      pendant: Pendant
+      jump_url: string
+      following: boolean
+      pub_ts: string
+      pub_time: string
       pub_action: string
       pub_location_text: string
-      pub_time: string
-      pub_ts: number
-      type: string
+      pendant: Pendant
       vip: Vip
+      official_verify: OfficialVerify
+      decorate: any
       decoration_card?: DecorationCard
+      is_top: boolean
+      icon_badge: any
     }
 
     interface Avatar {
       container_size: ContainerSize
+      layers: Layer[]
       fallback_layers: FallbackLayers
       mid: string
     }
 
     interface ContainerSize {
-      height: number
       width: number
-    }
-
-    interface FallbackLayers {
-      is_critical_group: boolean
-      layers: Layer[]
+      height: number
     }
 
     interface Layer {
+      group_id: string
+      layers: Layer2[]
+      group_mask: any
+      is_critical_group: boolean
+    }
+
+    interface Layer2 {
+      layer_id: string
+      visible: boolean
       general_spec: GeneralSpec
       layer_config: LayerConfig
       resource: Resource
-      visible: boolean
     }
 
     interface GeneralSpec {
       pos_spec: PosSpec
-      render_spec: RenderSpec
       size_spec: SizeSpec
+      render_spec: RenderSpec
     }
 
     interface PosSpec {
+      coordinate_pos: number
       axis_x: number
       axis_y: number
-      coordinate_pos: number
+    }
+
+    interface SizeSpec {
+      width: number
+      height: number
     }
 
     interface RenderSpec {
       opacity: number
     }
 
-    interface SizeSpec {
-      height: number
-      width: number
-    }
-
     interface LayerConfig {
-      is_critical?: boolean
       tags: Tags
+      is_critical: boolean
+      allow_over_paint: boolean
+      layer_mask: any
     }
 
     interface Tags {
       AVATAR_LAYER?: AvatarLayer
       GENERAL_CFG?: GeneralCfg
-      ICON_LAYER?: IconLayer
       PENDENT_LAYER?: PendentLayer
+      ICON_LAYER?: IconLayer
     }
 
-    interface AvatarLayer {}
+    interface AvatarLayer {
+      config_type: number
+    }
 
     interface GeneralCfg {
       config_type: number
@@ -1330,19 +1502,24 @@ declare namespace MainData {
     }
 
     interface WebCssStyle {
-      borderRadius: string
       'background-color'?: string
       border?: string
+      borderRadius: string
       boxSizing?: string
     }
 
-    interface IconLayer {}
+    interface PendentLayer {
+      config_type: number
+    }
 
-    interface PendentLayer {}
+    interface IconLayer {
+      config_type: number
+    }
 
     interface Resource {
-      res_image: ResImage
       res_type: number
+      res_image?: ResImage
+      res_animation?: ResAnimation
     }
 
     interface ResImage {
@@ -1350,160 +1527,272 @@ declare namespace MainData {
     }
 
     interface ImageSrc {
-      placeholder?: number
-      remote?: Remote
       src_type: number
+      placeholder: number
       local?: number
+      remote?: Remote
     }
 
-    interface Remote {
-      bfs_style: string
+    interface ResAnimation {
+      webp_src: WebpSrc
+    }
+
+    interface WebpSrc {
+      src_type: number
+      placeholder: number
+      remote: Remote
+    }
+
+    interface FallbackLayers {
+      group_id: string
+      layers: Layer[]
+      group_mask: any
+      is_critical_group: boolean
+    }
+
+    interface Pendant {
+      pid: number
+      name: string
+      image: string
+      expire: string
+      image_enhance: string
+      image_enhance_frame: string
+      n_pid: string
+    }
+
+    interface Vip {
+      type: number
+      status: number
+      due_date: string
+      vip_pay_type: number
+      theme_type: number
+      label: Label
+      avatar_subscript: number
+      nickname_color: string
+      role: string
+      avatar_subscript_url: string
+      tv_vip_status: number
+      tv_vip_pay_type: number
+      tv_due_date: string
+      avatar_icon: AvatarIcon
+    }
+
+    interface Label {
+      path: string
+      text: string
+      label_theme: string
+      text_color: string
+      bg_style: number
+      bg_color: string
+      border_color: string
+      use_img_label: boolean
+      img_label_uri_hans: string
+      img_label_uri_hant: string
+      img_label_uri_hans_static: string
+      img_label_uri_hant_static: string
+    }
+
+    interface AvatarIcon {
+      icon_type: number
+      icon_resource: IconResource
+    }
+
+    interface IconResource {
+      type: number
       url: string
     }
 
     interface OfficialVerify {
+      type: number
       desc: string
-      type: number
-    }
-
-    interface Pendant {
-      expire: number
-      image: string
-      image_enhance: string
-      image_enhance_frame: string
-      n_pid: number
-      name: string
-      pid: number
-    }
-
-    interface Vip {
-      avatar_subscript: number
-      avatar_subscript_url: string
-      due_date: number
-      label: Label
-      nickname_color: string
-      status: number
-      theme_type: number
-      type: number
-    }
-
-    interface Label {
-      bg_color: string
-      bg_style: number
-      border_color: string
-      img_label_uri_hans: string
-      img_label_uri_hans_static: string
-      img_label_uri_hant: string
-      img_label_uri_hant_static: string
-      label_theme: string
-      path: string
-      text: string
-      text_color: string
-      use_img_label: boolean
     }
 
     interface DecorationCard {
-      big_card_url: string
-      card_type: number
-      card_type_name: string
-      card_url: string
-      fan: Fan
-      id: number
-      image_enhance: string
-      item_id: number
-      jump_url: string
+      id: string
+      item_id: string
       name: string
+      card_url: string
+      big_card_url: string
+      card_type: string
+      expire_time: string
+      card_type_name: string
+      jump_url: string
+      fan: Fan
+      image_enhance: string
+      image_group: any
     }
 
     interface Fan {
+      is_fan: string
+      number: string
       color: string
-      color_format: ColorFormat
-      is_fan: number
       name: string
       num_desc: string
-      number: number
+      num_prefix: string
+      color_format?: ColorFormat
     }
 
     interface ColorFormat {
-      colors: string[]
-      end_point: string
-      gradients: number[]
       start_point: string
-    }
-
-    interface ModuleDynamic {
-      additional: any
-      desc: any
-      major: Major
-      topic?: Topic
-    }
-
-    interface Major {
-      archive: Archive
-      type: string
-    }
-
-    interface Archive {
-      aid: string
-      badge: Badge
-      bvid: string
-      cover: string
-      desc: string
-      disable_preview: number
-      duration_text: string
-      jump_url: string
-      stat: Stat
-      title: string
-      type: number
-    }
-
-    interface Badge {
-      bg_color: string
-      color: string
-      icon_url: any
-      text: string
-    }
-
-    interface Stat {
-      danmaku: string
-      play: string
-    }
-
-    interface Topic {
-      id: number
-      jump_url: string
-      name: string
+      end_point: string
+      colors: string[]
+      gradients: string[]
     }
 
     interface ModuleMore {
+      rcmd_text: string
       three_point_items: ThreePointItem[]
     }
 
     interface ThreePointItem {
       label: string
       type: string
+      params: Params
+      modal: any
+      jump_url: string
+    }
+
+    interface Params {}
+
+    interface ModuleDispute {
+      title: string
+      desc: string
+      jump_url: string
+    }
+
+    interface ModuleDynamic {
+      topic?: Topic
+      desc?: Desc
+      major: Major
+      additional: any
+    }
+
+    interface Topic {
+      id: string
+      name: string
+      jump_url: string
+    }
+
+    interface Desc {
+      text: string
+      rich_text_nodes: RichTextNode[]
+      paragraphs: any[]
+      has_more: boolean
+    }
+
+    interface RichTextNode {
+      text: string
+      orig_text: string
+      type: string
+      jump_url: string
+      icon_url: string
+      icon_name: string
+      rid: string
+      emoji: any
+      goods: any
+      style: any
+      pics: any[]
+      video: any
+    }
+
+    interface Major {
+      type: string
+      none: any
+      blocked: any
+      archive: Archive
+      pgc: any
+      courses: any
+      draw: any
+      article: any
+      music: any
+      common: any
+      upower_common: any
+      live: any
+      live_rcmd: any
+      medialist: any
+      subscription: any
+      ugc_season: any
+      subscription_new: any
+      opus: any
+    }
+
+    interface Archive {
+      type: number
+      bvid: string
+      aid: string
+      cover: string
+      jump_url: string
+      stat: Stat
+      duration_text: string
+      title: string
+      desc: string
+      badge: Badge
+      enable_vt: number
+      disable_preview: number
+      premiere_online: string
+      stat_hidden: number
+    }
+
+    interface Stat {
+      danmaku: string
+      play: string
+      vt: string
+    }
+
+    interface Badge {
+      icon_url: string
+      text: string
+      bg_color: string
+      color: string
     }
 
     interface ModuleStat {
-      comment: Comment
       forward: Forward
+      comment: Comment
       like: Like
     }
 
-    interface Comment {
+    interface Forward {
+      status: boolean
       count: number
       forbidden: boolean
+      disabled: boolean
+      silent: boolean
+      hidden: boolean
     }
 
-    interface Forward {
+    interface Comment {
+      status: boolean
       count: number
       forbidden: boolean
+      disabled: boolean
+      silent: boolean
+      hidden: boolean
     }
 
     interface Like {
+      status: boolean
       count: number
       forbidden: boolean
-      status: boolean
+      disabled: boolean
+      silent: boolean
+      hidden: boolean
+    }
+
+    interface ModuleInteraction {
+      items: Item2[]
+    }
+
+    interface Item2 {
+      type: number
+      desc: Desc2
+    }
+
+    interface Desc2 {
+      text: string
+      rich_text_nodes: RichTextNode[]
+      paragraphs: any[]
+      has_more: boolean
     }
   }
 
@@ -1541,6 +1830,8 @@ declare namespace MainData {
         bind_phone: string
         taobao_account: any
         is_tv_vip: boolean
+        keeptime_start: number
+        comic_show_coupon: ComicShowCoupon
       }
 
       interface List {
@@ -1556,7 +1847,7 @@ declare namespace MainData {
         app_describe: string
         recive_state: number
         salary_type: number
-        exp_params: ExpParams
+        exp_params?: ExpParams
         extra_params?: ExtraParams
       }
 
@@ -1566,10 +1857,31 @@ declare namespace MainData {
       }
 
       interface ExtraParams {
-        is_allowe_receive: string
-        is_show: string
-        last_salary_time: string
-        now: string
+        comic_show_coupon_prop_info?: string
+        is_allowe_receive?: string
+        is_show?: string
+        last_salary_time?: string
+        now?: string
+      }
+
+      interface ComicShowCoupon {
+        hide: boolean
+        state: number
+        count: number
+        title: string
+        sub_title: string
+        coupons: Coupon[]
+        promotion_rules: string[]
+        hide_v2: boolean
+        expire_tip: string
+        expire_time: number
+      }
+
+      interface Coupon {
+        amount: number
+        payment_threshold: string
+        title: string
+        sub_title: string
       }
     }
 
@@ -1605,28 +1917,4 @@ declare namespace MainData {
   }
 }
 
-declare namespace VcData {
-  namespace MyGroups {
-    interface Data {
-      list: List[]
-    }
-
-    interface List {
-      group_id: number
-      owner_uid: number
-      group_cover?: string
-      group_name: string
-      group_notice: string
-      fans_medal_name?: string
-    }
-  }
-
-  namespace SignIn {
-    interface Data {
-      add_num: number
-      status: number
-    }
-  }
-}
-
-export { LiveData, LiveTraceData, MainData, VcData }
+export { LiveData, LiveTraceData, MainData }

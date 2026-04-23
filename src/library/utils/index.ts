@@ -16,6 +16,15 @@ function uuid(): string {
 }
 
 /**
+ * 生成一个随机的 32 位 hash
+ * @returns 32 位十六进制字符串
+ */
+function random32Hash(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(16))
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
+}
+
+/**
  * 基于 Promise 的睡眠函数
  * @param milliseconds 睡眠时间（毫秒）
  */
@@ -28,7 +37,7 @@ function sleep(milliseconds: number): Promise<void> {
  * @param url
  */
 function getFilenameFromUrl(url: string): string {
-  return url.substring(url.lastIndexOf('/') + 1).split('.')[0]!
+  return url.substring(url.lastIndexOf('/') + 1).split('.')[0]
 }
 
 /**
@@ -127,7 +136,25 @@ function getUrlFromFetchInput(input: RequestInfo | URL): string {
   } else if (input instanceof Request) {
     return input.url
   } else {
-    return 'Incorrect input'
+    throw new TypeError('Unsupported fetch input type')
+  }
+}
+
+/**
+ * 根据原始 fetch input 参数，使用新的 URL 创建一个新的 fetch input 参数，保留原始参数的其他属性
+ * @param url 新的 URL
+ * @param input 原始 fetch input 参数
+ * @returns 新的 fetch input 参数
+ */
+function createFetchInputWithNewUrl(url: string, input: RequestInfo | URL): RequestInfo | URL {
+  if (typeof input === 'string') {
+    return url
+  } else if (input instanceof URL) {
+    return new URL(url, input.toString())
+  } else if (input instanceof Request) {
+    return new Request(url, input)
+  } else {
+    throw new TypeError('Unsupported fetch input type')
   }
 }
 
@@ -209,6 +236,7 @@ function arrayToMap<T>(arr: T[]): Map<T, number> {
 
 export {
   uuid,
+  random32Hash,
   sleep,
   getFilenameFromUrl,
   addURLParams,
@@ -216,6 +244,7 @@ export {
   packFormData,
   deepestIterate,
   getUrlFromFetchInput,
+  createFetchInputWithNewUrl,
   waitForMoment,
   arrayToMap,
 }

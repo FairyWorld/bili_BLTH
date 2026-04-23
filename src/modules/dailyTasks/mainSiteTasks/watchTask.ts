@@ -16,12 +16,12 @@ class WatchTask extends BaseModule {
    * 获取第一个视频的 aid
    */
   private getAid(): number {
-    return Number(useBiliStore().dynamicVideos![0]!.modules.module_dynamic.major.archive.aid)
+    return Number(useBiliStore().dynamicVideos![0].modules.module_dynamic.major.archive.aid)
   }
 
   private async watch(aid: number) {
     try {
-      const response = await BAPI.main.videoHeartbeat(aid, _.random(1000000000, 2000000000))
+      const response = await BAPI.main.videoHeartbeat(aid, _.random(30000000000, 40000000000))
       this.logger.log(`BAPI.main.videoHeartbeat(${aid}) response`, response)
       if (response.code === 0) {
         this.logger.log('每日观看视频任务已完成')
